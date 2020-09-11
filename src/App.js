@@ -1,24 +1,47 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+import './css/App.css';
+import { BrowserRouter as Router, Switch, Route} from "react-router-dom"
+import ImageUpload from "./components/tools/ImageUpload";
+import Header from "./components/main/Header"
+import Actualities from './components/main/Actualities';
+
+
+
+
+
 
 function App() {
+  
+
+  
+  const [user, setUser] = useState(null)
+
+
+  const changeUser = (user) => {
+    setUser(user)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+        <Router>
+            <Header user={user} changeUser={changeUser}/>
+          <Switch>
+
+            <Route path="/"> 
+              <Actualities user={user}/>
+            </Route>
+            <Route path="/reels"> 
+              
+            </Route>
+
+          </Switch>
+            {user?.displayName ? (
+              <ImageUpload username={user.displayName}/> 
+            ) : (
+                <h3>Sorry you need to Login</h3>
+            )}
+        </Router>
+
     </div>
   );
 }
